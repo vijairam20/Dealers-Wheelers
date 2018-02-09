@@ -60,11 +60,16 @@ def authenticate():
             print(passw)
             if user == username and password == passw :
                 print("Login Successful")
+                u = User(row[0],row[1],row[2])
                 flag = True
             break
     if not flag :
         print("Login Unsuccessful")
-
+        return
+    return u
+#Purchase
+def purchase(u):
+    print("Welcome back "+u.name)
 
 #main
 init()
