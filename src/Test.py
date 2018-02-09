@@ -21,7 +21,8 @@ def init():
     flag = (int)(input())
     if(flag == 1):
         print("A")
-        authenticate()
+        u = authenticate()
+        purchase(u)
     elif(flag == 2):
         obj = create_user()
         print("User Created")
@@ -62,14 +63,34 @@ def authenticate():
                 print("Login Successful")
                 u = User(row[0],row[1],row[2])
                 flag = True
-            break
-    if not flag :
-        print("Login Unsuccessful")
-        return
+                break
+        if not flag :
+            print("Login Unsuccessful")
+            return
     return u
 #Purchase
 def purchase(u):
     print("Welcome back "+u.name)
+    print("1.Buy")
+    print("2.Purchases")
+    print("3.View Details")
+    print("3.Quit")
+    flag =(int)(input())
+    if flag == 1 :
+        print("Search By")
+        print("1.Brand")
+        file = open("src\mtcars.csv",'r')
+        with file :
+            reader = csv.reader(file)
+            for row in reader :
+                print(row[0])
+    elif flag == 3 :
+        print("Details")
+        u.printDetails()
+    elif flag == 4 :
+        print("Purchases")
+    else :
+        init()
 
 #main
 init()
