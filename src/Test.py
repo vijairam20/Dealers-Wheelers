@@ -1,4 +1,5 @@
 import os
+import sys
 import csv
 class User:
     name =""
@@ -18,9 +19,9 @@ def init():
     print("1.Login")
     print("2.Create New User")
     print("3.View Offers")
+    print("4.Exit")
     flag = (int)(input())
     if(flag == 1):
-        print("A")
         u = authenticate()
         purchase(u)
     elif(flag == 2):
@@ -29,6 +30,10 @@ def init():
         init()
     elif(flag ==3):
         print("C")
+    elif(flag == 4):
+        print("Quitting")
+        os.system('cls')
+        sys.exit
 #Create of Users
 def create_user():
     print("Enter Name :")
