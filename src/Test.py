@@ -78,12 +78,14 @@ def purchase(u):
     flag =(int)(input())
     if flag == 1 :
         print("Search By")
-        print("1.Brand")
+        print("1.Car")
         file = open("src\mtcars.csv",'r')
         with file :
             reader = csv.reader(file)
+            i = 1
             for row in reader :
-                print(row[0])
+                print(str(i)+": "+row[0])
+                i += 1
     elif flag == 3 :
         print("Details")
         u.printDetails()
