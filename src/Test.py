@@ -2,9 +2,6 @@ import os
 import sys
 import csv
 class User:
-    name =""
-    username =""
-    password =""
     def __init__(self,name , username ,password):
         self.name = name
         self.username = username
@@ -13,6 +10,40 @@ class User:
         print("Name :"+self.name)
         print("Usename :"+self.username)
         print("Password :"+self.password)
+class Car:
+    def __init__(self,manuf , model, type , price , mpg , hp , cyl , ft , pas , length , width , weight , stock):
+        self.manuf = manuf
+        self.model = model
+        self.type = type
+        self.price = price
+        self.mpg = mpg
+        self.hp = hp
+        self.cyl = cyl
+        self.ft = ft
+        self.pas = pas
+        self.length = length
+        self.width = width
+        self.weight = weight
+        self.stock = stock
+
+    def printDetails(self):
+         print("Manufacturer : "+self.manuf)
+         print("Model        : "+self.model)
+         print("Type         :"+self.type)
+         print("Price        : $"+self.price)
+         print("Milelage     : "+self.mpg)
+         print("Horse Power  : "+self.hp)
+         print("Cylinders    : "+self.cyl)
+         print("Fuel Tank    : "+self.ft)
+         print("Length       : "+self.length)
+         print("Width        : "+self.width)
+         print("Weigth       :"+self.weight)
+         if self.stock > 0 :
+          print("Stock : "+self.stock)
+         else :
+          print("Stock : Not Available")
+
+
 def init():
     print("Dealers Wheelers")
     print("Amzazon for cars")
@@ -98,6 +129,5 @@ def purchase(u):
         print("Purchases")
     else :
         init()
-
 #main
 init()
