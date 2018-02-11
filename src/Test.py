@@ -1,6 +1,7 @@
 import os
 import sys
 import csv
+from decimal import Decimal
 class User:
     def __init__(self,name , username ,password):
         self.name = name
@@ -11,7 +12,7 @@ class User:
         print("Usename :"+self.username)
         print("Password :"+self.password)
 class Car:
-    def __init__(self,manuf , model, type , price , mpg , hp , cyl , ft , pas , length , width , weight , stock):
+    def __init__(self,manuf , model, type , price , mpg , cyl , hp , ft , pas , length , width , weight , stock):
         self.manuf = manuf
         self.model = model
         self.type = type
@@ -30,19 +31,18 @@ class Car:
          print("Manufacturer : "+self.manuf)
          print("Model        : "+self.model)
          print("Type         :"+self.type)
-         print("Price        : $"+self.price)
-         print("Milelage     : "+self.mpg)
-         print("Horse Power  : "+self.hp)
-         print("Cylinders    : "+self.cyl)
-         print("Fuel Tank    : "+self.ft)
-         print("Length       : "+self.length)
-         print("Width        : "+self.width)
-         print("Weigth       :"+self.weight)
+         print("Price        : $"+str(self.price))
+         print("Milelage     : "+str(self.mpg))
+         print("Horse Power  : "+str(self.hp))
+         print("Cylinders    : "+str(self.cyl))
+         print("Fuel Tank    : "+str(self.ft))
+         print("Length       : "+str(self.length))
+         print("Width        : "+str(self.width))
+         print("Weigth       :"+str(self.weight))
          if self.stock > 0 :
-          print("Stock : "+self.stock)
+          print("Stock : "+str(self.stock))
          else :
-          print("Stock : Not Available")
-
+          print("Stock : Not Available\n")
 
 def init():
     print("Dealers Wheelers")
@@ -93,8 +93,6 @@ def authenticate():
         for row in reader:
             user = row[1]
             passw = row[2]
-            print(user)
-            print(passw)
             if user == username and password == passw :
                 print("Login Successful")
                 u = User(row[0],row[1],row[2])
@@ -114,14 +112,9 @@ def purchase(u):
     flag =(int)(input())
     if flag == 1 :
         print("Search By")
-        print("1.Car")
-        file = open("src\mtcars.csv",'r')
-        with file :
-            reader = csv.reader(file)
-            i = 1
-            for row in reader :
-                print(str(i)+": "+row[0])
-                i += 1
+        print("1.Manufacturer")
+        print("2.Type")
+
     elif flag == 3 :
         print("Details")
         u.printDetails()
@@ -129,5 +122,14 @@ def purchase(u):
         print("Purchases")
     else :
         init()
+def getCars() :
+    file = open("src\mtcars.csv",'r',newline='')
+    cars = []
+    with file :
+        reader = csv.reader(file)
+        for row in reader :
+            cars.append(Car(row[0],row[1],row[2],Decimal(row[3])+Decimal(row[4]),int(row[5]),int(row[6]),Decimal(row[7]),Decimal(row[8]),Decimal(row[9]),Decimal(row[10]),Decimal(row[12]),Decimal(row[13]),int(row[14])))
+    return  cars
 #main
 init()
+
