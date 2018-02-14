@@ -1,12 +1,14 @@
 import os
 import sys
 import csv
+import pickle
 from decimal import Decimal
 class User:
-    def __init__(self,name , username ,password):
+    def __init__(self,name , username ,password , cars = 0):
         self.name = name
         self.username = username
         self.password = password
+        self.car = 0
     def printDetails(self):
         print("Name :"+self.name)
         print("Usename :"+self.username)
@@ -38,24 +40,60 @@ class Car:
          print("Fuel Tank    : "+str(self.ft))
          print("Length       : "+str(self.length))
          print("Width        : "+str(self.width))
-         print("Weigth       :"+str(self.weight))
+         print("Weigth       : "+str(self.weight))
          if self.stock > 0 :
           print("Stock : "+str(self.stock))
          else :
           print("Stock : Not Available\n")
-
+def printHeader() :
+    print("\n\n\t\t\t\t\t<<<DEALERS 'N WHEELERS>>>")
+    print("\t\t\t\t\t\t\t\t\t\t\t  -Amazon for cars")
+def aldreadyExist(types , pos) :
+     for i in range(pos) :
+        if types[i] == types[pos] :
+            return True
+     return False
+def removeDuplicates(types) :
+    Ntypes =[]
+    Ntypes.append(types[0])
+    i = 1
+    while i < len(types) :
+        if not (aldreadyExist(types , i)) :
+           Ntypes.append(types[i])
+        i += 1
+    return Ntypes
+def getDetails(n , spec ="" , a = 0):
+    types = []
+    file = open("src/mtcars.csv","r",newline='')
+    if spec == "" :
+        with file :
+            reader = csv.reader(file)
+            for row in reader :
+                types.append(row[n])
+    else :
+        with file :
+            reader = csv.reader(file)
+            for row in reader :
+                if spec == row[a] :
+                   types.append(row[n])
+    types = removeDuplicates(types)
+    return types
 def init():
-    print("Dealers Wheelers")
-    print("Amzazon for cars")
-    print("1.Login")
-    print("2.Create New User")
-    print("3.View Offers")
-    print("4.Exit")
+    printHeader()
+    print("\n\n\t1.Login")
+    print("\n\t2.Create New User")
+    print("\n\t3.View Offers")
+    print("\n\t4.Exit")
+    print("\n\n\tEnter your options:\t")
     flag = (int)(input())
     if(flag == 1):
-        u = authenticate()
+        u = None
+        while  u == None :
+            u = authenticate()
+        os.system("cls")
         purchase(u)
     elif(flag == 2):
+        os.system("cls")
         obj = create_user()
         print("User Created")
         init()
@@ -104,6 +142,7 @@ def authenticate():
     return u
 #Purchase
 def purchase(u):
+    printHeader()
     print("Welcome back "+u.name)
     print("1.Buy")
     print("2.Purchases")
@@ -111,10 +150,10 @@ def purchase(u):
     print("3.Quit")
     flag =(int)(input())
     if flag == 1 :
-        print("Search By")
-        print("1.Manufacturer")
-        print("2.Type")
-
+        print("Enter prefered Manufacturer : ")
+        man = getManufacturers()
+        print("Enter Type :")
+        type = getDetails(2,man)
     elif flag == 3 :
         print("Details")
         u.printDetails()
@@ -122,14 +161,30 @@ def purchase(u):
         print("Purchases")
     else :
         init()
-def getCars() :
+def getCars():
     file = open("src\mtcars.csv",'r',newline='')
     cars = []
-    with file :
+    with file:
         reader = csv.reader(file)
         for row in reader :
             cars.append(Car(row[0],row[1],row[2],Decimal(row[3])+Decimal(row[4]),int(row[5]),int(row[6]),Decimal(row[7]),Decimal(row[8]),Decimal(row[9]),Decimal(row[10]),Decimal(row[12]),Decimal(row[13]),int(row[14])))
-    return  cars
-#main
-init()
+    return cars
+def getManufacturers():
+    brands = getDetails(0)
+    i = 0
+    inp = 0
+    c = 1
+    while inp == 0 :
+        while i < 5 :
+            print(str(c) +":" +brands[c-1])
+            c += 1
+            i += 1
+        i = 0
+        print("Press NUM for Brand ")
+        print("Press 0 for more")
+        inp = int(input())
 
+    return brands[inp-1]
+#main
+#init()
+print(getManufacturers())
