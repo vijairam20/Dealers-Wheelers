@@ -162,7 +162,7 @@ def purchase(u):
     else :
         init()
 def getCars():
-    file = open("src\mtcars.csv",'r',newline='')
+    file = open("src/mtcars.csv",'r',newline='')
     cars = []
     with file:
         reader = csv.reader(file)
@@ -187,4 +187,12 @@ def getManufacturers():
     return brands[inp-1]
 #main
 #init()
-print(getManufacturers())
+#print(getManufacturers())
+# cars = getCars()
+# for c in cars :
+#     c.printDetails()
+file = open("src\mtcars.csv","r",newline='')
+with file :
+    reader = csv.reader(file)
+    for row in reader :
+        print(row[1])
