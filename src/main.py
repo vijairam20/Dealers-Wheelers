@@ -32,8 +32,8 @@ class Car:
     def printDetails(self):
          print("Manufacturer : "+self.manuf)
          print("Model        : "+self.model)
-         print("Type         :"+self.type)
-         print("Price        : $"+str(self.price))
+         print("Type         : "+self.type)
+         print("Price        : $"+str(self.price*1000))
          print("Milelage     : "+str(self.mpg))
          print("Horse Power  : "+str(self.hp))
          print("Cylinders    : "+str(self.cyl))
@@ -42,9 +42,13 @@ class Car:
          print("Width        : "+str(self.width))
          print("Weigth       : "+str(self.weight))
          if self.stock > 0 :
-          print("Stock : "+str(self.stock))
+          print("Stock        : "+str(self.stock))
          else :
           print("Stock : Not Available\n")
+class Order :
+    def __init__(self,car):
+        self.car = car
+
 def printHeader() :
     print("\n\n\t\t\t\t\t<<<DEALERS 'N WHEELERS>>>")
     print("\t\t\t\t\t\t\t\t\t\t\t  -Amazon for cars")
@@ -152,8 +156,12 @@ def purchase(u):
     if flag == 1 :
         print("Enter prefered Manufacturer : ")
         man = getManufacturers()
-        print("Enter Type :")
-        type = getDetails(2,man)
+        print("Enter preferred Type :")
+        Type = getType(man)
+        cars = getCar(man,Type)
+        for c in cars :
+            c.printDetails()
+
     elif flag == 3 :
         print("Details")
         u.printDetails()
@@ -185,14 +193,26 @@ def getManufacturers():
         inp = int(input())
 
     return brands[inp-1]
+def getType(man ="") :
+    if not (man == "") :
+        types = getDetails(2,man)
+    else :
+        types = getDetails(2)
+    i = 1
+    for t in types:
+        print(str(i) + ":" + t)
+        i+=1
+    print("Press NUM for type")
+    inp = int(input())
+    return types[inp-1]
+def getCar(man , type) :
+    file = open("src/mtcars.csv",'r',newline='')
+    cars =[]
+    with file :
+        reader = csv.reader(file)
+        for row in reader :
+            if row[0] == man and row[2] == type :
+                cars.append(Car(row[0],row[1],row[2],Decimal(row[3])+Decimal(row[4]),int(row[5]),int(row[6]),Decimal(row[7]),Decimal(row[8]),Decimal(row[9]),Decimal(row[10]),Decimal(row[12]),Decimal(row[13]),int(row[14])))
+    return cars
 #main
-#init()
-#print(getManufacturers())
-# cars = getCars()
-# for c in cars :
-#     c.printDetails()
-file = open("src\mtcars.csv","r",newline='')
-with file :
-    reader = csv.reader(file)
-    for row in reader :
-        print(row[1])
+init()
